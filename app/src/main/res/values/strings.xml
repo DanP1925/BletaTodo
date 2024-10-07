@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TODOList</string>
+    <string name="tasks_screen_title">Bleta TODO List</string>
+    <string name="tasks_item_check_description">Check</string>
 </resources>

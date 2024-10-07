@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.danp1925.todolist.presentation.list.TasksScreens
+import com.danp1925.todolist.presentation.list.model.Task
 import com.danp1925.todolist.ui.theme.TODOListTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +21,27 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TODOListTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                TasksScreens(getFakeTasks())
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
+
+    fun getFakeTasks(): List<Task> = listOf(
+        Task("Estudiar corutinas", true),
+        Task("Estudiar flow", false),
+        Task("Estudiar Jetpack Compose", true),
+        Task("Estudiar corutinas", true),
+        Task("Estudiar flow", false),
+        Task("Estudiar Jetpack Compose", true),
+        Task("Estudiar corutinas", true),
+        Task("Estudiar flow", false),
+        Task("Estudiar Jetpack Compose", true),
+        Task("Estudiar corutinas", true),
+        Task("Estudiar flow", false),
+        Task("Estudiar Jetpack Compose", true),
+        Task("Estudiar corutinas", true),
+        Task("Estudiar flow", false),
+        Task("Estudiar Jetpack Compose", true)
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TODOListTheme {
-        Greeting("Android")
-    }
 }
