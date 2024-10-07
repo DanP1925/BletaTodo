@@ -1,6 +1,8 @@
 package com.danp1925.todolist.data
 
 import com.danp1925.todolist.data.di.IoDispatcher
+import com.danp1925.todolist.data.local.LocalTask
+import com.danp1925.todolist.data.local.TasksDao
 import com.danp1925.todolist.domain.ITasksRepository
 import com.danp1925.todolist.domain.models.Task as DomainTask
 import kotlinx.coroutines.CoroutineDispatcher
@@ -8,6 +10,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TasksRepository @Inject constructor(
+    private val tasksDao: TasksDao,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ITasksRepository {
 
@@ -16,7 +19,7 @@ class TasksRepository @Inject constructor(
     }
 
     override suspend fun addNewTask(task: DomainTask) = withContext(dispatcher) {
-
+        tasksDao.insertTask(LocalTask.fromDomain(task))
     }
 
     private fun getFakeTasks(): List<DomainTask> = listOf(
