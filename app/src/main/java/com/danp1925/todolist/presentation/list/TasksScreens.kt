@@ -11,13 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.danp1925.todolist.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TasksScreens(
-    viewModel: TasksViewModel
+    viewModel: TasksViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

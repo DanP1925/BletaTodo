@@ -2,11 +2,14 @@ package com.danp1925.todolist.presentation.list
 
 import androidx.lifecycle.ViewModel
 import com.danp1925.todolist.presentation.list.model.Task
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class TasksViewModel : ViewModel() {
+@HiltViewModel
+class TasksViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow(TasksScreenState())
     val uiState: StateFlow<TasksScreenState> = _uiState
