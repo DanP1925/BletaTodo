@@ -4,4 +4,6 @@ object NavRoutes {
 
     const val TasksList = "tasks_list"
 
+    const val NewTask = "new_task"
+
 }

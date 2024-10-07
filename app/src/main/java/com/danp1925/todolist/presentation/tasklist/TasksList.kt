@@ -1,4 +1,4 @@
-package com.danp1925.todolist.presentation.list
+package com.danp1925.todolist.presentation.tasklist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.danp1925.todolist.presentation.list.models.Task
+import com.danp1925.todolist.presentation.tasklist.models.Task
 
 @Composable
 fun TasksList(

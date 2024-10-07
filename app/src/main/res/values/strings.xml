@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">TODOList</string>
-    <string name="tasks_screen_title">Bleta TODO List</string>
+    <string name="tasks_screen_title">Lista de Tareas</string>
+    <string name="new_task_screen_title">Nueva tarea</string>
+    <string name="new_task_screen_title_input">Título</string>
+    <string name="new_task_screen_description_input">Descripción</string>
+    <string name="new_task_screen_button">Agregar Tarea</string>
     <string name="tasks_item_check_description">Check</string>
 </resources>

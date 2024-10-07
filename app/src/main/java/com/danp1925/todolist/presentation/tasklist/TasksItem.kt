@@ -1,5 +1,6 @@
-package com.danp1925.todolist.presentation.list
+package com.danp1925.todolist.presentation.tasklist
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.danp1925.todolist.R
-import com.danp1925.todolist.presentation.list.models.Task
+import com.danp1925.todolist.presentation.tasklist.models.Task
 
 @Composable
 fun TasksItem(task: Task) {
@@ -31,14 +32,15 @@ fun TasksItem(task: Task) {
                 width = 2.dp,
                 color = MaterialTheme.colorScheme.primary,
                 shape = RoundedCornerShape(4.dp)
-            ),
+            ).background(MaterialTheme.colorScheme.primaryContainer),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = task.title,
             fontSize = 16.sp,
             maxLines = 1,
-            modifier = Modifier.weight(1f).padding(start = 8.dp)
+            modifier = Modifier.weight(1f).padding(start = 8.dp),
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
         if (task.isCompleted) {
             Icon(

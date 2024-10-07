@@ -1,9 +1,9 @@
-package com.danp1925.todolist.presentation.list
+package com.danp1925.todolist.presentation.tasklist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danp1925.todolist.domain.usecases.GetTasksUseCase
-import com.danp1925.todolist.presentation.list.models.toUI
+import com.danp1925.todolist.presentation.tasklist.models.toUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
