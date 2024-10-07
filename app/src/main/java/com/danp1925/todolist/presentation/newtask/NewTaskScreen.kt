@@ -16,19 +16,19 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.danp1925.todolist.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewTaskScreen() {
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
+fun NewTaskScreen(
+    viewModel: NewTaskViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -54,16 +54,17 @@ fun NewTaskScreen() {
                         .padding(all = 16.dp)
                 ) {
                     OutlinedTextField(
-                        value = title,
-                        onValueChange = { newTitle -> title = newTitle },
+                        value = uiState.taskTitle,
+                        onValueChange = viewModel::updateTitle,
                         label = { Text(text = stringResource(R.string.new_task_screen_title_input)) },
+                        maxLines = 1,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 16.dp)
                     )
                     TextField(
-                        value = description,
-                        onValueChange = { newDescription -> description = newDescription },
+                        value = uiState.taskDescription,
+                        onValueChange = viewModel::updateDescription,
                         label = { Text(text = stringResource(R.string.new_task_screen_description_input)) },
                         modifier = Modifier
                             .weight(1f)
@@ -71,7 +72,7 @@ fun NewTaskScreen() {
                             .padding(bottom = 16.dp)
                     )
                     Button(
-                        onClick = {},
+                        onClick = viewModel::addNewTask,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 60.dp)
