@@ -1,6 +1,6 @@
-package com.danp1925.todolist.presentation.list.model
+package com.danp1925.todolist.presentation.list.models
 
-import com.danp1925.todolist.domain.model.Task as DomainTask
+import com.danp1925.todolist.domain.models.Task as DomainTask
 
 data class Task(
     val title: String,

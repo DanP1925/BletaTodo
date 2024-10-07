@@ -1,12 +1,18 @@
-package com.danp1925.todolist.domain
+package com.danp1925.todolist.data
 
-import com.danp1925.todolist.domain.model.Task
+import com.danp1925.todolist.data.di.IoDispatcher
+import com.danp1925.todolist.domain.ITasksRepository
+import com.danp1925.todolist.domain.models.Task
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GetTasksUseCase @Inject constructor(){
+class TasksRepository @Inject constructor(
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
+) : ITasksRepository {
 
-    operator fun invoke() : List<Task>{
-        return getFakeTasks()
+    override suspend fun getTasks(): List<Task> = withContext(dispatcher) {
+        return@withContext getFakeTasks()
     }
 
     private fun getFakeTasks(): List<Task> = listOf(
