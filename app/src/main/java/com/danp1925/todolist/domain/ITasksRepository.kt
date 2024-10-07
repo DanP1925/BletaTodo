@@ -1,8 +1,9 @@
 package com.danp1925.todolist.domain
 
 import com.danp1925.todolist.domain.models.Task
+import kotlinx.coroutines.flow.Flow
 
 interface ITasksRepository {
-    suspend fun getTasks(): List<Task>
+    fun getTasks(): Flow<List<Task>>
     suspend fun addNewTask(task: Task)
 }

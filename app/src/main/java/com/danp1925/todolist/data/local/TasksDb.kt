@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [LocalTask::class],
-    version = 1
+    version = 2
 )
 abstract class TasksDb : RoomDatabase() {
     abstract val tasksDao: TasksDao

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.danp1925.todolist.domain.models.Task
 
-@Entity
+@Entity(tableName = "Task")
 data class LocalTask(
     @PrimaryKey(autoGenerate = true) val uid: Int? = null,
     @ColumnInfo(name = "title") val title: String,
@@ -19,4 +19,10 @@ data class LocalTask(
             isCompleted = false
         )
     }
+
+    fun toDomain() = Task(
+        title = title,
+        description = description,
+        isCompleted = isCompleted
+    )
 }

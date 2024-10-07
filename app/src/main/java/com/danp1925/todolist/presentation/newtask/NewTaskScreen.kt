@@ -26,7 +26,8 @@ import com.danp1925.todolist.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewTaskScreen(
-    viewModel: NewTaskViewModel = hiltViewModel()
+    viewModel: NewTaskViewModel = hiltViewModel(),
+    onButtonClicked: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -72,7 +73,10 @@ fun NewTaskScreen(
                             .padding(bottom = 16.dp)
                     )
                     Button(
-                        onClick = viewModel::addNewTask,
+                        onClick = {
+                            viewModel.addNewTask()
+                            onButtonClicked()
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 60.dp)

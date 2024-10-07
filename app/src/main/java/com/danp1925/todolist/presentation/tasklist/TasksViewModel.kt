@@ -25,9 +25,10 @@ class TasksViewModel @Inject constructor(
 
     private fun loadTasks() {
         viewModelScope.launch {
-            val tasks = getTasksUseCase().map { it.toUI() }
-            _uiState.update {
-                _uiState.value.copy(tasks = tasks)
+            getTasksUseCase().collect { tasks ->
+                _uiState.update {
+                    _uiState.value.copy(tasks = tasks.map { it.toUI() })
+                }
             }
         }
     }

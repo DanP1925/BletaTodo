@@ -29,7 +29,7 @@ private fun NavGraphBuilder.addTasksList(navController: NavHostController) {
 private fun NavGraphBuilder.addNewTask(navController: NavHostController) {
 
     composable(NavRoutes.NewTask) {
-        NewTaskScreen()
+        NewTaskScreen(onButtonClicked = { navController.popBackStack() })
     }
 
 }
