@@ -1,5 +1,6 @@
 package com.danp1925.todolist.presentation.list
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,7 +13,10 @@ import com.danp1925.todolist.presentation.list.model.Task
 fun TasksList(
     tasks: List<Task>
 ) {
-    LazyColumn(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+    LazyColumn(
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
         items(tasks) { task ->
             TasksItem(task)
         }
