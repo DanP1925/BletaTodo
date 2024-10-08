@@ -10,18 +10,22 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import com.danp1925.todolist.domain.models.Task as DomainTask
+import com.danp1925.todolist.domain.models.Task
 
 class TasksRepository @Inject constructor(
     private val tasksDao: TasksDao,
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : ITasksRepository {
 
-    override fun getTasks(): Flow<List<DomainTask>> = tasksDao.getTasks().map {
+    override fun getTasks(): Flow<List<Task>> = tasksDao.getTasks().map {
         it.map { localTask -> localTask.toDomain() }
     }.flowOn(dispatcher)
 
-    override suspend fun addNewTask(task: DomainTask) = withContext(dispatcher) {
+    override suspend fun getTask(taskId: Int): Task = withContext(dispatcher) {
+        return@withContext tasksDao.getTask(taskId).toDomain()
+    }
+
+    override suspend fun addNewTask(task: Task) = withContext(dispatcher) {
         tasksDao.insertTask(LocalTask.fromDomain(task))
     }
 

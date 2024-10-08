@@ -26,7 +26,7 @@ import com.danp1925.todolist.R
 fun TasksScreens(
     viewModel: TasksViewModel = hiltViewModel(),
     onAddTaskClicked: () -> Unit,
-    onTaskItemClicked: () -> Unit
+    onTaskItemClicked: (Int) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

@@ -21,6 +21,7 @@ data class LocalTask(
     }
 
     fun toDomain() = Task(
+        id = uid!!,
         title = title,
         description = description,
         isCompleted = isCompleted

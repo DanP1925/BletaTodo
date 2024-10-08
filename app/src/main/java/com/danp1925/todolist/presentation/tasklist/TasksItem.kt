@@ -20,11 +20,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.danp1925.todolist.R
-import com.danp1925.todolist.presentation.tasklist.models.Task
+import com.danp1925.todolist.presentation.tasklist.models.UITask
 
 @Composable
 fun TasksItem(
-    task: Task,
+    task: UITask,
     modifier: Modifier = Modifier
 ) {
     Row(

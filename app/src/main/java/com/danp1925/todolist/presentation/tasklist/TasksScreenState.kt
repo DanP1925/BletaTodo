@@ -1,7 +1,7 @@
 package com.danp1925.todolist.presentation.tasklist
 
-import com.danp1925.todolist.presentation.tasklist.models.Task
+import com.danp1925.todolist.presentation.tasklist.models.UITask
 
 data class TasksScreenState(
-    val tasks: List<Task> = emptyList()
+    val tasks: List<UITask> = emptyList()
 )

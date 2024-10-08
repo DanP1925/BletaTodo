@@ -2,7 +2,7 @@ package com.danp1925.todolist.presentation.newtask
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.danp1925.todolist.domain.models.Task as DomainTask
+import com.danp1925.todolist.domain.models.Task
 import com.danp1925.todolist.domain.usecases.AddNewTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +30,7 @@ class NewTaskViewModel @Inject constructor(
     fun addNewTask() {
         viewModelScope.launch {
             addNewTaskUseCase(
-                DomainTask(
+                Task(
                     title = _uiState.value.taskTitle,
                     description = _uiState.value.taskDescription,
                     isCompleted = false

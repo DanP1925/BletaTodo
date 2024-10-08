@@ -11,14 +11,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.danp1925.todolist.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskDetailScreen() {
+fun TaskDetailScreen(
+    viewModel: TaskDetailViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -39,14 +46,12 @@ fun TaskDetailScreen() {
             ) {
                 Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                     Text(
-                        text = "Titulo",
+                        text = uiState.title,
                         modifier = Modifier.padding(bottom = 8.dp),
                         style = MaterialTheme.typography.titleMedium
                     )
                     Text(
-                        text = "Descripcion " +
-                                "ljadsfkjasdlkjf" +
-                                "lkajsdlfkjasdlkfjasdklfjasdklfj",
+                        text = uiState.description,
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
