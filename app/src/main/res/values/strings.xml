@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TODOList</string>
     <string name="tasks_screen_title">Lista de Tareas</string>
+    <string name="tasks_screen_empty_list">Aún no hay tareas creadas. Por favor cree una con el botón +</string>
     <string name="new_task_screen_title">Nueva tarea</string>
     <string name="new_task_screen_title_input">Título</string>
     <string name="new_task_screen_description_input">Descripción</string>
