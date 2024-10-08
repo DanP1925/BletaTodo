@@ -80,6 +80,16 @@ class TasksRepositoryTest {
         assertEquals(expected, actual)
     }
 
+    @Test(expected = Exception::class)
+    fun `Verify getTask throws an exception if taskId not found`() = scope.runTest {
+        //GIVEN
+        val taskId = 5
+        coEvery { mockTasksDao.getTask(any()) } returns null
+
+        //WHEN
+        sut.getTask(taskId)
+    }
+
     @Test
     fun `Verify addNewTask insert newTask into database`() = scope.runTest {
         //GIVEN
@@ -111,6 +121,22 @@ class TasksRepositoryTest {
         coVerify {
             mockTasksDao.updateCompletion(expected)
         }
+    }
+
+    @Test
+    fun `Verify deleteTask calls deletes the Task from the database`() = scope.runTest{
+        //GIVEN
+        val taskId = 5
+        val expectedTask = LocalTask(5, "Titulo", "Descripcion", true)
+        coEvery{ mockTasksDao.getTask(taskId) } returns expectedTask
+        coEvery { mockTasksDao.deleteTask(any()) } just Runs
+
+        //WHEN
+        sut.deleteTask(taskId)
+
+        //THEN
+        coVerify { mockTasksDao.deleteTask(expectedTask) }
+
     }
 
 }

@@ -2,6 +2,7 @@ package com.danp1925.todolist.presentation.taskdetail
 
 import androidx.lifecycle.SavedStateHandle
 import com.danp1925.todolist.domain.models.Task
+import com.danp1925.todolist.domain.usecases.DeleteTaskUseCase
 import com.danp1925.todolist.domain.usecases.GetTaskUseCase
 import com.danp1925.todolist.domain.usecases.UpdateTaskCompletionUseCase
 import com.danp1925.todolist.presentation.MainDispatcherRule
@@ -30,13 +31,17 @@ class TaskDetailViewModelTest {
     @MockK
     lateinit var mockUpdateTaskCompletionUseCase: UpdateTaskCompletionUseCase
 
+    @MockK
+    lateinit var mockDeleteTaskUseCase: DeleteTaskUseCase
+
     private val taskId = 5
 
     private val sut by lazy {
         TaskDetailViewModel(
             SavedStateHandle(mapOf(NavRoutes.TaskDetailArgs.TaskId to taskId)),
             mockGetTaskUseCase,
-            mockUpdateTaskCompletionUseCase
+            mockUpdateTaskCompletionUseCase,
+            mockDeleteTaskUseCase
         )
     }
 
