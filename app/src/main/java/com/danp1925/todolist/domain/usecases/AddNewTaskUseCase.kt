@@ -9,7 +9,7 @@ class AddNewTaskUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(task: Task){
-        return tasksRepository.addNewTask(task)
+        tasksRepository.addNewTask(task)
     }
 
 }
