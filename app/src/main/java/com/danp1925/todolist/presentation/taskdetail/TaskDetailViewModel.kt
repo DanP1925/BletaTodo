@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.danp1925.todolist.domain.usecases.GetTaskUseCase
+import com.danp1925.todolist.domain.usecases.UpdateTaskCompletionUseCase
 import com.danp1925.todolist.ui.navigation.NavRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TaskDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getTaskUseCase: GetTaskUseCase
+    private val getTaskUseCase: GetTaskUseCase,
+    private val updateTaskCompletionUseCase: UpdateTaskCompletionUseCase
 ) : ViewModel() {
 
     private val taskId: Int = requireNotNull(savedStateHandle[NavRoutes.TaskDetailArgs.TaskId]) {
@@ -31,7 +33,20 @@ class TaskDetailViewModel @Inject constructor(
             _uiState.update {
                 _uiState.value.copy(
                     title = task.title,
-                    description = task.description
+                    description = task.description,
+                    isCompleted = task.isCompleted
+                )
+            }
+        }
+    }
+
+    fun updateCompletionStatus() {
+        viewModelScope.launch {
+            val newCompletionStatus =
+                updateTaskCompletionUseCase(taskId, _uiState.value.isCompleted)
+            _uiState.update {
+                _uiState.value.copy(
+                    isCompleted = newCompletionStatus
                 )
             }
         }

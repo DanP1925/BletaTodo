@@ -2,6 +2,7 @@ package com.danp1925.todolist.data
 
 import com.danp1925.todolist.data.di.IoDispatcher
 import com.danp1925.todolist.data.local.LocalTask
+import com.danp1925.todolist.data.local.PartialLocalTask
 import com.danp1925.todolist.data.local.TasksDao
 import com.danp1925.todolist.domain.ITasksRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -28,5 +29,10 @@ class TasksRepository @Inject constructor(
     override suspend fun addNewTask(task: Task) = withContext(dispatcher) {
         tasksDao.insertTask(LocalTask.fromDomain(task))
     }
+
+    override suspend fun updateTaskCompletion(taskId: Int, newCompletionValue: Boolean) =
+        withContext(dispatcher) {
+            tasksDao.update(PartialLocalTask(taskId, newCompletionValue))
+        }
 
 }
