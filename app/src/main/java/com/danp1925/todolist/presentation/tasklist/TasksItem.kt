@@ -23,30 +23,38 @@ import com.danp1925.todolist.R
 import com.danp1925.todolist.presentation.tasklist.models.Task
 
 @Composable
-fun TasksItem(task: Task) {
+fun TasksItem(
+    task: Task,
+    modifier: Modifier = Modifier
+) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(40.dp)
             .border(
                 width = 2.dp,
                 color = MaterialTheme.colorScheme.primary,
                 shape = RoundedCornerShape(4.dp)
-            ).background(MaterialTheme.colorScheme.primaryContainer),
+            )
+            .background(MaterialTheme.colorScheme.primaryContainer),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = task.title,
             fontSize = 16.sp,
             maxLines = 1,
-            modifier = Modifier.weight(1f).padding(start = 8.dp),
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 8.dp),
             color = MaterialTheme.colorScheme.onPrimaryContainer
         )
         if (task.isCompleted) {
             Icon(
                 imageVector = Icons.Rounded.Check,
                 contentDescription = stringResource(R.string.tasks_item_check_description),
-                modifier = Modifier.size(24.dp).padding(end = 8.dp)
+                modifier = Modifier
+                    .size(24.dp)
+                    .padding(end = 8.dp)
             )
         }
     }

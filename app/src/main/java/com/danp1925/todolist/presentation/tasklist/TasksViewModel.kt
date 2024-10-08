@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -20,9 +22,11 @@ class TasksViewModel @Inject constructor(
     private val getTasksUseCase: GetTasksUseCase,
 ) : ViewModel() {
 
-    private val _tasks = getTasksUseCase().distinctUntilChanged()
-    val uiState: StateFlow<TasksScreenState> = combine(_tasks) { tasks ->
-        TasksScreenState(tasks.first().map { it.toUI() })
+    private val _tasks = getTasksUseCase().distinctUntilChanged().map { tasks ->
+        tasks.map { it.toUI() }
+    }
+    val uiState: StateFlow<TasksScreenState> = combine(_tasks) { uiTasks ->
+        TasksScreenState(tasks = uiTasks.first())
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),

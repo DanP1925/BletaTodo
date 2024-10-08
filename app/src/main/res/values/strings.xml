@@ -6,4 +6,5 @@
     <string name="new_task_screen_description_input">Descripción</string>
     <string name="new_task_screen_button">Agregar Tarea</string>
     <string name="tasks_item_check_description">Check</string>
+    <string name="task_detail_screen_title">Detalle de Tarea</string>
 </resources>
