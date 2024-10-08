@@ -16,7 +16,7 @@ data class LocalTask(
         fun fromDomain(task: Task) = LocalTask(
             title = task.title,
             description = task.description,
-            isCompleted = false
+            isCompleted = task.isCompleted
         )
     }
 
