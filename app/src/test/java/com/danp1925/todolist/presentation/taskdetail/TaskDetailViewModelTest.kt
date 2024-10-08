@@ -61,13 +61,13 @@ class TaskDetailViewModelTest {
     @Test
     fun `Verify that updateCompletionStatus updates the uiState`() {
         //GIVEN
-        coEvery { mockUpdateTaskCompletionUseCase(taskId, false) } returns true
+        coEvery { mockUpdateTaskCompletionUseCase(taskId, true) } returns false
 
         //WHEN
         sut.updateCompletionStatus()
 
         //THEN
-        assertEquals(true, sut.uiState.value.isCompleted)
+        assertEquals(false, sut.uiState.value.isCompleted)
     }
 
 }
