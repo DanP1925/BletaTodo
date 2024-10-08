@@ -15,6 +15,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.danp1925.todolist.R
+import kotlinx.coroutines.flow.collect
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,6 +32,14 @@ fun NewTaskScreen(
     onButtonClicked: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.eventFlow.collect{ event ->
+            when(event){
+                is NewTaskEvents.OnCreateCompleted -> onButtonClicked()
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -73,10 +83,7 @@ fun NewTaskScreen(
                             .padding(bottom = 16.dp)
                     )
                     Button(
-                        onClick = {
-                            viewModel.addNewTask()
-                            onButtonClicked()
-                        },
+                        onClick = viewModel::addNewTask,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 60.dp)
