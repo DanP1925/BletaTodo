@@ -28,6 +28,10 @@ class TaskDetailViewModel @Inject constructor(
     val uiState: StateFlow<TaskDetailScreenState> = _uiState
 
     init {
+        loadTask()
+    }
+
+    private fun loadTask(){
         viewModelScope.launch {
             val task = getTaskUseCase(taskId)
             _uiState.update {
