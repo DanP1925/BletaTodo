@@ -10,6 +10,12 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
 import io.mockk.just
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
@@ -53,21 +59,26 @@ class NewTaskViewModelTest {
     }
 
     @Test
-    fun `Verify addNewTask calls the addNewTaskUseCase`() {
+    fun `Verify addNewTask calls the addNewTaskUseCase`() = runTest {
         //GIVEN
         val taskTitle = "Titulo"
         val taskDescription = "Descripcion"
         val expected =
             Task(id = null, title = taskTitle, description = taskDescription, isCompleted = false)
         coEvery { mockAddNewTaskUseCase(any()) } just Runs
+        var event : NewTaskEvents? = null
 
         //WHEN
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            event = sut.eventFlow.first()
+        }
         sut.updateTitle(taskTitle)
         sut.updateDescription(taskDescription)
         sut.addNewTask()
 
         //THEN
         coVerify { mockAddNewTaskUseCase(expected) }
+        assertEquals(NewTaskEvents.OnCreateCompleted, event)
     }
 
 }

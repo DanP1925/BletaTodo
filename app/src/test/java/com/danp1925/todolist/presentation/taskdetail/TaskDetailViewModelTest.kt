@@ -11,7 +11,13 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
+import io.mockk.just
+import io.mockk.runs
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -53,7 +59,7 @@ class TaskDetailViewModelTest {
     }
 
     @Test
-    fun `Verify that the task is loaded when initialized`() {
+    fun `Verify that the task is loaded when initialized`() = runTest {
         //THEN
         with(sut.uiState.value) {
             assertEquals("Titulo", title)
@@ -64,7 +70,26 @@ class TaskDetailViewModelTest {
     }
 
     @Test
-    fun `Verify that updateCompletionStatus updates the uiState`() {
+    fun `Verify that loadTask handle when an exception is thrown`() = runTest {
+        //GIVEN
+        val exceptionMessage = "Test exception"
+        coEvery { mockGetTaskUseCase(taskId) } throws Exception(exceptionMessage)
+        var event: TaskDetailEvents? = null
+
+        //WHEN
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            event = sut.eventFlow.first()
+        }
+
+        //THEN
+        with(sut.uiState.value) {
+            assertEquals(false, isLoading)
+        }
+        assertEquals(TaskDetailEvents.OnExceptionThrown(exceptionMessage), event)
+    }
+
+    @Test
+    fun `Verify that updateCompletionStatus updates the uiState`() = runTest {
         //GIVEN
         coEvery { mockUpdateTaskCompletionUseCase(taskId, true) } returns false
 
@@ -73,6 +98,41 @@ class TaskDetailViewModelTest {
 
         //THEN
         assertEquals(false, sut.uiState.value.isCompleted)
+    }
+
+    @Test
+    fun `Verify that deleteTask calls the deleteTaskUseCase and sends event`() = runTest {
+        //GIVEN
+        coEvery { mockDeleteTaskUseCase(any()) } just runs
+        var event: TaskDetailEvents? = null
+
+        //WHEN
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            event = sut.eventFlow.first()
+        }
+        sut.deleteTask()
+
+        //THEN
+        coVerify { mockGetTaskUseCase(any()) }
+        assertEquals(TaskDetailEvents.OnDeleteCompleted, event)
+    }
+
+    @Test
+    fun `Verify showDeleteDialog updates uiState`() {
+        //WHEN
+        sut.showDeleteDialog()
+
+        //THEN
+        assertEquals(true, sut.uiState.value.showAlertDialog)
+    }
+
+    @Test
+    fun `Verify hideDeleteDialog updates uiState`() {
+        //WHEN
+        sut.hideDeleteDialog()
+
+        //THEN
+        assertEquals(false, sut.uiState.value.showAlertDialog)
     }
 
 }
