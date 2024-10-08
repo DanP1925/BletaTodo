@@ -35,6 +35,7 @@ class NewTaskViewModel @Inject constructor(
 
     fun addNewTask() {
         viewModelScope.launch {
+            _uiState.update { _uiState.value.copy(isLoading = true) }
             addNewTaskUseCase(
                 Task(
                     title = _uiState.value.taskTitle,

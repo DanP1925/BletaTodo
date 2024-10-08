@@ -40,19 +40,21 @@ class TaskDetailViewModel @Inject constructor(
 
     private fun loadTask(){
         viewModelScope.launch {
+            _uiState.update { _uiState.value.copy(isLoading = true) }
             val task = getTaskUseCase(taskId)
             _uiState.update {
                 _uiState.value.copy(
                     title = task.title,
                     description = task.description,
-                    isCompleted = task.isCompleted
+                    isCompleted = task.isCompleted,
+                    isLoading = false
                 )
             }
         }
     }
 
     fun deleteTask(){
-        _uiState.update { _uiState.value.copy(showAlertDialog = false) }
+        _uiState.update { _uiState.value.copy(showAlertDialog = false, isLoading = true) }
         viewModelScope.launch {
             deleteTaskUseCase(taskId)
             _eventFlow.emit(TaskDetailEvents.OnDeleteCompleted)

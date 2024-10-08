@@ -26,7 +26,7 @@ class TasksViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = TasksScreenState()
+        initialValue = TasksScreenState(isLoading = true)
     )
 
 }
