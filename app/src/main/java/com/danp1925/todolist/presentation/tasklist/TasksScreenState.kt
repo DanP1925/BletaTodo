@@ -4,5 +4,6 @@ import com.danp1925.todolist.presentation.tasklist.models.UITask
 
 data class TasksScreenState(
     val tasks: List<UITask> = emptyList(),
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val shouldShowMenu: Boolean = false
 )
