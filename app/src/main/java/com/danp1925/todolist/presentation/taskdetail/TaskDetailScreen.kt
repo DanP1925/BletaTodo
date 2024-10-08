@@ -1,5 +1,6 @@
 package com.danp1925.todolist.presentation.taskdetail
 
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -46,11 +48,15 @@ fun TaskDetailScreen(
     onBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.eventFlow.collect{ event ->
-            when(event){
+        viewModel.eventFlow.collect { event ->
+            when (event) {
                 is TaskDetailEvents.OnDeleteCompleted -> onBack()
+                is TaskDetailEvents.OnExceptionThrown -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -73,7 +79,7 @@ fun TaskDetailScreen(
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                if (uiState.isLoading){
+                if (uiState.isLoading) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -165,8 +171,8 @@ fun TaskDetailContent(
 @Composable
 fun DeleteDialog(
     onConfirmRequest: () -> Unit,
-    onDismissRequest : () -> Unit
-){
+    onDismissRequest: () -> Unit
+) {
     BasicAlertDialog(
         onDismissRequest = onDismissRequest
     ) {
@@ -191,7 +197,7 @@ fun DeleteDialog(
                         Text(stringResource(R.string.task_detail_screen_dialog_cancel))
                     }
                     TextButton(
-                        onClick =  onConfirmRequest,
+                        onClick = onConfirmRequest,
                     ) {
                         Text(stringResource(R.string.task_detail_screen_dialog_confirm))
                     }

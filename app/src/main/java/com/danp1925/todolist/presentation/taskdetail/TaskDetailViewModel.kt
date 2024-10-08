@@ -38,22 +38,29 @@ class TaskDetailViewModel @Inject constructor(
         loadTask()
     }
 
-    private fun loadTask(){
+    private fun loadTask() {
         viewModelScope.launch {
             _uiState.update { _uiState.value.copy(isLoading = true) }
-            val task = getTaskUseCase(taskId)
-            _uiState.update {
-                _uiState.value.copy(
-                    title = task.title,
-                    description = task.description,
-                    isCompleted = task.isCompleted,
-                    isLoading = false
-                )
+            try {
+                val task = getTaskUseCase(taskId)
+                _uiState.update {
+                    _uiState.value.copy(
+                        title = task.title,
+                        description = task.description,
+                        isCompleted = task.isCompleted,
+                        isLoading = false
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    _uiState.value.copy(isLoading = false)
+                }
+                _eventFlow.emit(TaskDetailEvents.OnExceptionThrown(e.message ?: ""))
             }
         }
     }
 
-    fun deleteTask(){
+    fun deleteTask() {
         _uiState.update { _uiState.value.copy(showAlertDialog = false, isLoading = true) }
         viewModelScope.launch {
             deleteTaskUseCase(taskId)
@@ -61,11 +68,11 @@ class TaskDetailViewModel @Inject constructor(
         }
     }
 
-    fun showDeleteDialog(){
+    fun showDeleteDialog() {
         _uiState.update { _uiState.value.copy(showAlertDialog = true) }
     }
 
-    fun hideDeleteDialog(){
+    fun hideDeleteDialog() {
         _uiState.update { _uiState.value.copy(showAlertDialog = false) }
     }
 

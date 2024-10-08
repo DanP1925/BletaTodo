@@ -23,7 +23,8 @@ class TasksRepository @Inject constructor(
     }.flowOn(dispatcher)
 
     override suspend fun getTask(taskId: Int): Task = withContext(dispatcher) {
-        return@withContext tasksDao.getTask(taskId).toDomain()
+        return@withContext tasksDao.getTask(taskId)?.toDomain()
+            ?: throw Exception("No task with that id found")
     }
 
     override suspend fun addNewTask(task: Task) = withContext(dispatcher) {
