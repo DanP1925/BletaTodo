@@ -102,14 +102,14 @@ class TasksRepositoryTest {
         val taskId = 5
         val newCompletionValue = true
         val expected = PartialLocalTask(5, true)
-        coEvery { mockTasksDao.update(any()) } just Runs
+        coEvery { mockTasksDao.updateCompletion(any()) } just Runs
 
         //WHEN
         sut.updateTaskCompletion(taskId, newCompletionValue)
 
         //THEN
         coVerify {
-            mockTasksDao.update(expected)
+            mockTasksDao.updateCompletion(expected)
         }
     }
 

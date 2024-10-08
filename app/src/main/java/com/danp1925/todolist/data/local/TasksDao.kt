@@ -1,6 +1,7 @@
 package com.danp1925.todolist.data.local
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -19,6 +20,9 @@ interface TasksDao {
     suspend fun insertTask(task: LocalTask)
 
     @Update(entity = LocalTask::class)
-    suspend fun update(partialTask: PartialLocalTask)
+    suspend fun updateCompletion(partialTask: PartialLocalTask)
+
+    @Delete
+    suspend fun deleteTask(task: LocalTask)
 
 }

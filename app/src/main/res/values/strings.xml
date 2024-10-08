@@ -7,5 +7,11 @@
     <string name="new_task_screen_button">Agregar Tarea</string>
     <string name="tasks_item_check_description">Check</string>
     <string name="task_detail_screen_title">Detalle de Tarea</string>
-    <string name="task_detail_screen_button">Completar Tarea</string>
+    <string name="task_detail_screen_completed">Completado</string>
+    <string name="task_detail_screen_not_completed">Por completar</string>
+    <string name="task_detail_screen_button_delete">Eliminar Tarea</string>
+    <string name="task_detail_screen_button_complete">Completar Tarea</string>
+    <string name="task_detail_screen_dialog_title">¿Estás seguro de eliminar esta tarea?</string>
+    <string name="task_detail_screen_dialog_confirm">Confirmar</string>
+    <string name="task_detail_screen_dialog_cancel">Cancelar</string>
 </resources>

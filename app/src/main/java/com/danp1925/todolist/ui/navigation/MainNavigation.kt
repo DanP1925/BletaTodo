@@ -57,7 +57,9 @@ private fun NavGraphBuilder.addTaskDetail(navController: NavHostController) {
             nullable = false
         })
     ) {
-        TaskDetailScreen()
+        TaskDetailScreen(
+            onBack = {navController.popBackStack()}
+        )
     }
 
 }

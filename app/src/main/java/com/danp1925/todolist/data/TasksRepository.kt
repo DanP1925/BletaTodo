@@ -32,7 +32,12 @@ class TasksRepository @Inject constructor(
 
     override suspend fun updateTaskCompletion(taskId: Int, newCompletionValue: Boolean) =
         withContext(dispatcher) {
-            tasksDao.update(PartialLocalTask(taskId, newCompletionValue))
+            tasksDao.updateCompletion(PartialLocalTask(taskId, newCompletionValue))
         }
+
+    override suspend fun deleteTask(taskId: Int) = withContext(dispatcher) {
+        val task = getTask(taskId)
+        tasksDao.deleteTask(LocalTask.fromDomain(task))
+    }
 
 }

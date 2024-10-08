@@ -3,12 +3,15 @@ package com.danp1925.todolist.presentation.taskdetail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.danp1925.todolist.domain.usecases.DeleteTaskUseCase
 import com.danp1925.todolist.domain.usecases.GetTaskUseCase
 import com.danp1925.todolist.domain.usecases.UpdateTaskCompletionUseCase
 import com.danp1925.todolist.ui.navigation.NavRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +20,8 @@ import javax.inject.Inject
 class TaskDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getTaskUseCase: GetTaskUseCase,
-    private val updateTaskCompletionUseCase: UpdateTaskCompletionUseCase
+    private val updateTaskCompletionUseCase: UpdateTaskCompletionUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase
 ) : ViewModel() {
 
     private val taskId: Int = requireNotNull(savedStateHandle[NavRoutes.TaskDetailArgs.TaskId]) {
@@ -26,6 +30,9 @@ class TaskDetailViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(TaskDetailScreenState())
     val uiState: StateFlow<TaskDetailScreenState> = _uiState
+
+    private val _eventFlow = MutableSharedFlow<TaskDetailEvents>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         loadTask()
@@ -42,6 +49,22 @@ class TaskDetailViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun deleteTask(){
+        _uiState.update { _uiState.value.copy(showAlertDialog = false) }
+        viewModelScope.launch {
+            deleteTaskUseCase(taskId)
+            _eventFlow.emit(TaskDetailEvents.OnDeleteCompleted)
+        }
+    }
+
+    fun showDeleteDialog(){
+        _uiState.update { _uiState.value.copy(showAlertDialog = true) }
+    }
+
+    fun hideDeleteDialog(){
+        _uiState.update { _uiState.value.copy(showAlertDialog = false) }
     }
 
     fun updateCompletionStatus() {

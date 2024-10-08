@@ -14,6 +14,7 @@ data class LocalTask(
 ) {
     companion object {
         fun fromDomain(task: Task) = LocalTask(
+            uid = task.id,
             title = task.title,
             description = task.description,
             isCompleted = task.isCompleted

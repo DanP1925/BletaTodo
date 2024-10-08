@@ -8,4 +8,5 @@ interface ITasksRepository {
     suspend fun getTask(taskId: Int): Task
     suspend fun addNewTask(task: Task)
     suspend fun updateTaskCompletion(taskId: Int, newCompletionValue: Boolean)
+    suspend fun deleteTask(taskId: Int)
 }
