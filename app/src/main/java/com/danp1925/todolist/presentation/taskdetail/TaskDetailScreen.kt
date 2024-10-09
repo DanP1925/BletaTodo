@@ -166,7 +166,11 @@ fun TaskDetailContent(
                 modifier = Modifier
                     .weight(1f)
             ) {
-                Text(stringResource(R.string.task_detail_screen_button_complete))
+                if (isCompleted){
+                    Text(stringResource(R.string.task_detail_screen_button_start))
+                } else {
+                    Text(stringResource(R.string.task_detail_screen_button_complete))
+                }
             }
         }
     }
