@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.danp1925.todolist.presentation.tasklist.models.UITask
 
@@ -16,7 +17,7 @@ fun TasksList(
     onTaskItemClicked: (Int) -> Unit
 ) {
     LazyColumn(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp).testTag("TaskList"),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         items(tasks) { task ->
