@@ -1,6 +1,7 @@
 package com.danp1925.todolist.presentation.taskdetail
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -65,8 +67,8 @@ fun TaskDetailScreen(
         topBar = {
             TopAppBar(
                 colors = topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
                 title = {
                     Text(stringResource(R.string.task_detail_screen_title))
@@ -121,24 +123,27 @@ fun TaskDetailContent(
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
         Text(
             text = title,
-            modifier = Modifier.padding(bottom = 8.dp),
-            style = MaterialTheme.typography.titleMedium
+            modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
+            style = MaterialTheme.typography.titleLarge
         )
         Text(
             text = description,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.weight(1f)
         )
         Text(
             text = if (isCompleted) {
-                stringResource(R.string.task_detail_screen_completed)
+                "Status: " + stringResource(R.string.task_detail_screen_completed)
             } else {
-                stringResource(R.string.task_detail_screen_not_completed)
+                "Status: " + stringResource(R.string.task_detail_screen_not_completed)
             },
+            color = if (isCompleted) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onError,
             modifier = Modifier
+                .clip(RoundedCornerShape(4.dp))
+                .background(if (isCompleted) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.error)
                 .border(
                     width = 2.dp,
-                    color = if (isCompleted) Color.Green else Color.Red,
+                    color = if (isCompleted) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.errorContainer,
                     shape = RoundedCornerShape(4.dp)
                 )
                 .padding(4.dp)
@@ -146,7 +151,7 @@ fun TaskDetailContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 24.dp, end = 24.dp, bottom = 32.dp)
+                .padding(start = 24.dp, end = 24.dp, bottom = 32.dp, top = 24.dp)
         ) {
             Button(
                 onClick = onDeleteButtonClicked,
